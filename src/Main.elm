@@ -6,6 +6,7 @@ import Html.Attributes as Attr exposing (src)
 import Html.Events as E
 import Http
 import Json.Decode as Decode exposing (Decoder)
+import SearchTerm exposing (SearchTerm)
 
 
 
@@ -51,7 +52,7 @@ update msg model =
         SearchFor str ->
             let
                 cmd =
-                    requestQuotes model.searchString
+                    requestQuotes str
             in
             ( model, cmd )
 
@@ -78,14 +79,9 @@ update msg model =
 
 requestQuotes : String -> Cmd Msg
 requestQuotes searchString =
-    Http.request
-        { method = "GET"
-        , headers = [ Http.header "Accept" "application/hal+json" ]
-        , url = "http://localhost:3001/search/quote?query=" ++ searchString
-        , body = Http.emptyBody
+    Http.get
+        { url = "http://localhost:3001/search/quote?query=" ++ searchString
         , expect = Http.expectJson GotQuotes quotesDecoder
-        , timeout = Nothing
-        , tracker = Nothing
         }
 
 
@@ -93,9 +89,13 @@ quotesDecoder : Decoder (List Quote)
 quotesDecoder =
     Decode.field "_embedded" <|
         Decode.field "quotes" <|
-            Decode.list <|
-                Decode.map Quote
-                    (Decode.field "value" Decode.string)
+            Decode.list quoteDecoder
+
+
+quoteDecoder : Decoder Quote
+quoteDecoder =
+    Decode.map Quote
+        (Decode.field "value" Decode.string)
 
 
 
