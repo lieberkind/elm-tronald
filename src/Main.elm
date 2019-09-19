@@ -103,16 +103,21 @@ quoteDecoder =
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ Html.input
-            [ Attr.type_ "text"
-            , Attr.value model.searchString
-            , E.onInput SearchStringChanged
+    Html.div []
+        [ Html.div [ Attr.class "logo" ]
+            [ Html.img [ Attr.src "logo.png" ] [] ]
+        , Html.div [ Attr.class "form" ]
+            [ Html.input
+                [ Attr.type_ "text"
+                , Attr.value model.searchString
+                , E.onInput SearchStringChanged
+                ]
+                []
+            , Html.button
+                [ Attr.type_ "button", E.onClick (SearchFor model.searchString) ]
+                [ Html.text "Search..." ]
             ]
-            []
-        , Html.button [ E.onClick (SearchFor model.searchString) ] [ Html.text "Search..." ]
-        , Html.p [] [ Html.text model.searchString ]
-        , Html.div []
+        , Html.div [ Attr.class "quotes" ]
             (List.map
                 viewQuote
                 model.quotes
@@ -122,7 +127,7 @@ view model =
 
 viewQuote : Quote -> Html Msg
 viewQuote quote =
-    Html.div []
+    Html.div [ Attr.class "quote" ]
         [ Html.p [] [ Html.text quote.quote ]
         ]
 

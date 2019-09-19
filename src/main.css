@@ -9,10 +9,14 @@
   height: inherit;
 }
 
-body {
-  font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+p {
   margin: 0;
-  text-align: center;
+}
+
+body {
+  font-family: "Source Sans Pro", "Trebuchet MS", "Lucida Grande",
+    "Bitstream Vera Sans", "Helvetica Neue", sans-serif;
+  margin: 0;
   color: #293c4b;
 }
 
@@ -23,4 +27,49 @@ h1 {
 img {
   margin: 20px 0;
   max-width: 200px;
+}
+
+input {
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  height: 30px;
+  padding: 0 8px;
+  margin-right: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+input:focus {
+  border: 1px solid #293c4b;
+  outline: none;
+}
+
+.logo,
+.form {
+  text-align: center;
+}
+
+.form {
+  margin-bottom: 16px;
+}
+
+button {
+  box-sizing: border-box;
+  height: 30px;
+  background: #fff;
+  border: 1px solid #ccc;
+  margin: 0;
+  padding: 0 8px;
+}
+
+.quotes {
+  width: 600px;
+  margin: 0 auto;
+}
+
+.quote {
+  font-family: "Courier New", monospace;
+  background: #eee;
+  border-left: 8px solid #ccc;
+  padding: 16px 8px;
+  margin-bottom: 16px;
 }
