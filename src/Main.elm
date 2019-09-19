@@ -6,7 +6,6 @@ import Html.Attributes as Attr exposing (src)
 import Html.Events as E
 import Http
 import Json.Decode as Decode exposing (Decoder)
-import SearchTerm exposing (SearchTerm)
 
 
 
