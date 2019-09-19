@@ -73,3 +73,11 @@ button {
   padding: 16px 8px;
   margin-bottom: 16px;
 }
+
+.quote p {
+  margin-bottom: 8px;
+}
+
+.quote a {
+  color: #666;
+}

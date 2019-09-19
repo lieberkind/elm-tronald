@@ -129,6 +129,7 @@ viewQuote : Quote -> Html Msg
 viewQuote quote =
     Html.div [ Attr.class "quote" ]
         [ Html.p [] [ Html.text quote.quote ]
+        , Html.a [ Attr.href "#" ] [ Html.text "http://sourceofthequote.com" ]
         ]
 
 
