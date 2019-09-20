@@ -1,8 +1,8 @@
 module Main exposing (..)
 
 import Browser
-import Html exposing (Html, div, h1, img, text)
-import Html.Attributes as Attr exposing (src)
+import Html exposing (Html, a, button, div, h1, img, input, p, text)
+import Html.Attributes as Attr exposing (class, href, src, type_)
 import Html.Events as E
 import Http
 import Json.Decode as Decode exposing (Decoder)
@@ -12,20 +12,13 @@ import Json.Decode as Decode exposing (Decoder)
 ---- MODEL ----
 
 
-type alias Quote =
-    { quote : String
-    }
-
-
 type alias Model =
-    { quotes : List Quote
-    , searchString : String
-    }
+    {}
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { quotes = [], searchString = "" }, Cmd.none )
+    ( {}, Cmd.none )
 
 
 
@@ -33,68 +26,12 @@ init =
 
 
 type Msg
-    = SearchStringChanged String
-    | SearchFor String
-    | GotQuotes (Result Http.Error (List Quote))
+    = NoOp
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
-        SearchStringChanged str ->
-            let
-                newModel =
-                    { model | searchString = str }
-            in
-            ( newModel, Cmd.none )
-
-        SearchFor str ->
-            let
-                cmd =
-                    requestQuotes str
-            in
-            ( model, cmd )
-
-        GotQuotes result ->
-            case result of
-                Result.Err err ->
-                    let
-                        meh =
-                            Debug.log (err |> Debug.toString)
-                    in
-                    ( model, Cmd.none )
-
-                Result.Ok quotes ->
-                    let
-                        newModel =
-                            { model | quotes = quotes }
-                    in
-                    ( newModel, Cmd.none )
-
-
-
----- HTTP ----
-
-
-requestQuotes : String -> Cmd Msg
-requestQuotes searchString =
-    Http.get
-        { url = "http://localhost:3001/search/quote?query=" ++ searchString
-        , expect = Http.expectJson GotQuotes quotesDecoder
-        }
-
-
-quotesDecoder : Decoder (List Quote)
-quotesDecoder =
-    Decode.field "_embedded" <|
-        Decode.field "quotes" <|
-            Decode.list quoteDecoder
-
-
-quoteDecoder : Decoder Quote
-quoteDecoder =
-    Decode.map Quote
-        (Decode.field "value" Decode.string)
+    ( model, Cmd.none )
 
 
 
@@ -103,33 +40,21 @@ quoteDecoder =
 
 view : Model -> Html Msg
 view model =
-    Html.div []
-        [ Html.div [ Attr.class "logo" ]
-            [ Html.img [ Attr.src "logo.png" ] [] ]
-        , Html.div [ Attr.class "form" ]
-            [ Html.input
-                [ Attr.type_ "text"
-                , Attr.value model.searchString
-                , E.onInput SearchStringChanged
-                ]
-                []
-            , Html.button
-                [ Attr.type_ "button", E.onClick (SearchFor model.searchString) ]
-                [ Html.text "Search..." ]
+    div []
+        [ div [ class "logo" ]
+            [ img [ src "logo.png" ] [] ]
+        , div [ class "form" ]
+            [ input [ type_ "text" ] []
+            , button
+                [ type_ "button" ]
+                [ text "Search..." ]
             ]
-        , Html.div [ Attr.class "quotes" ]
-            (List.map
-                viewQuote
-                model.quotes
-            )
-        ]
-
-
-viewQuote : Quote -> Html Msg
-viewQuote quote =
-    Html.div [ Attr.class "quote" ]
-        [ Html.p [] [ Html.text quote.quote ]
-        , Html.a [ Attr.href "#" ] [ Html.text "http://sourceofthequote.com" ]
+        , div [ class "quotes" ]
+            [ div [ class "quote" ]
+                [ p [] [ text "This quote is hardcoded" ]
+                , a [ href "#" ] [ text "http://sourceofthequote.com" ]
+                ]
+            ]
         ]
 
 
