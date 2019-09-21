@@ -79,5 +79,10 @@ button {
 }
 
 .quote a {
+  font-size: 14px;
   color: #666;
+}
+
+.no-quotes {
+  text-align: center;
 }
