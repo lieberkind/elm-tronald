@@ -12,13 +12,25 @@ import Json.Decode as Decode exposing (Decoder)
 ---- MODEL ----
 
 
+type alias Quote =
+    { quote : String
+    , sourceUrl : String
+    }
+
+
 type alias Model =
-    {}
+    { quotes : List Quote }
+
+
+hardcodedQuotes =
+    [ Quote "Hardcoded quote 1" "http://www.google.com"
+    , Quote "Hardcoded quote 2" "http://www.google.com"
+    ]
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( {}, Cmd.none )
+    ( { quotes = hardcodedQuotes }, Cmd.none )
 
 
 
@@ -31,7 +43,9 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        NoOp ->
+            ( model, Cmd.none )
 
 
 
@@ -50,11 +64,15 @@ view model =
                 [ text "Search..." ]
             ]
         , div [ class "quotes" ]
-            [ div [ class "quote" ]
-                [ p [] [ text "This quote is hardcoded" ]
-                , a [ href "#" ] [ text "http://sourceofthequote.com" ]
-                ]
-            ]
+            (List.map viewQuote model.quotes)
+        ]
+
+
+viewQuote : Quote -> Html Msg
+viewQuote quote =
+    div [ class "quote" ]
+        [ p [] [ text quote.quote ]
+        , a [ href quote.sourceUrl ] [ text quote.sourceUrl ]
         ]
 
 
