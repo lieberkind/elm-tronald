@@ -12,16 +12,18 @@ import Json.Decode as Decode exposing (Decoder)
 ---- MODEL ----
 
 
+type alias Model =
+    { quotes : List Quote
+    }
+
+
 type alias Quote =
     { quote : String
     , sourceUrl : String
     }
 
 
-type alias Model =
-    { quotes : List Quote }
-
-
+hardcodedQuotes : List Quote
 hardcodedQuotes =
     [ Quote "Hardcoded quote 1" "http://www.google.com"
     , Quote "Hardcoded quote 2" "http://www.google.com"
@@ -30,7 +32,14 @@ hardcodedQuotes =
 
 init : ( Model, Cmd Msg )
 init =
-    ( { quotes = hardcodedQuotes }, Cmd.none )
+    let
+        initialModel =
+            { quotes = hardcodedQuotes }
+
+        initialCmd =
+            Cmd.none
+    in
+    ( initialModel, initialCmd )
 
 
 
